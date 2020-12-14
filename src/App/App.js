@@ -17,7 +17,7 @@ class App extends Component {
     folders: [],
   };
 
-  componentDidMount() {
+  getAllNotesAndFolders = () => {
     Promise.all([
       fetch(`${config.API_ENDPOINT}/notes`),
       fetch(`${config.API_ENDPOINT}/folders`)
@@ -39,6 +39,10 @@ class App extends Component {
       .catch(error => {
         console.error({ error })
       })
+  }
+
+  componentDidMount() {
+    this.getAllNotesAndFolders()
   }
 
   handleAddFolder = folder => {
@@ -63,6 +67,7 @@ class App extends Component {
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
     })
+    this.getAllNotesAndFolders()
   }
 
   renderNavRoutes() {
